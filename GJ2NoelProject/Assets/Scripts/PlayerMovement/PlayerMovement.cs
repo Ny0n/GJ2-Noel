@@ -16,8 +16,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _length;
     [SerializeField] private int _strength;
     [SerializeField] private float _dampening;
-    private bool _grounded;
 
+    [SerializeField] protected Transform _centerOfMass;
+    private bool _grounded;
+    private float _angle;
+    [SerializeField] private float _angleSpeed;
+    private bool _colliding;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,19 +33,14 @@ public class PlayerMovement : MonoBehaviour
         }
 
         _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody.centerOfMass = _centerOfMass.localPosition;
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        FaceForwardWithUPDependingBarycentricCoordinate();
 
-        if (Input.GetKey(KeyCode.Z))
-        {
-            _rigidbody.velocity = transform.forward * _speed;
-        }
-        else
-            _rigidbody.velocity = Vector3.zero;
+        _angle = 0;
 
         RaycastHit hit;
         for (int i = 0; i < _hoverPoints.Length; i++)
@@ -60,6 +59,53 @@ public class PlayerMovement : MonoBehaviour
                 _lastHitRayCastDistance[i] = _length * 1.1f;
             }
         }
+        if (!_grounded)
+            return;
+
+        FaceForwardWithUPDependingBarycentricCoordinate();
+
+        if (Input.GetKey(KeyCode.Z)&& !_colliding)
+        {
+            _rigidbody.velocity = transform.forward * _speed;
+            Debug.Log(_colliding);
+        }
+
+        if (Input.GetKey(KeyCode.Q))
+            _angle -= _angleSpeed;
+        if (Input.GetKey(KeyCode.D))
+            _angle += _angleSpeed;
+
+
+        
+        Vector3 bodyRot = _angle * transform.up * Time.fixedDeltaTime;
+        _rigidbody.transform.eulerAngles += bodyRot;
+        if (_angle == 0)
+        {
+            Vector3 angularVelocity = _rigidbody.angularVelocity;
+            angularVelocity.y = 0;
+            _rigidbody.angularVelocity = angularVelocity;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Vector3 speed = _rigidbody.velocity.normalized;
+        float magnitude = _rigidbody.velocity.magnitude;
+
+        ContactPoint contact = collision.contacts[0];
+        Vector3 collisionVector = Vector3.Project(transform.position - contact.point,transform.right);
+        Debug.DrawRay(transform.position,collisionVector*1000,Color.green,25f);
+        speed = (collisionVector*5 + speed).normalized;
+        _rigidbody.velocity = Vector3.zero;
+        _rigidbody.velocity = (speed * magnitude*0.5f )  ;
+        _colliding = true;
+
+        CancelInvoke();
+        Invoke("SetCollidingToFalse", 1f);
+    }
+    private void SetCollidingToFalse() 
+    {
+        _colliding = false;
     }
 
     protected virtual void FaceForwardWithUPDependingBarycentricCoordinate()
@@ -68,6 +114,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Physics.Raycast(_center.position, -transform.up, out hit, Mathf.Infinity, ~_raycastIgnore))
         {
+            Debug.Log(hit.collider.name);
             // Just in case, also make sure the collider also has a renderer
             // material and texture
             MeshCollider meshCollider = hit.collider as MeshCollider;
@@ -99,9 +146,10 @@ public class PlayerMovement : MonoBehaviour
 
 
             Quaternion lookRotation = Quaternion.LookRotation(transform.forward, interpolatedNormal);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.fixedDeltaTime * 5);
-            Debug.DrawRay(transform.position, interpolatedNormal * 1000, Color.white, Mathf.Infinity);
-            Debug.DrawRay(transform.position, transform.up * 1000, Color.yellow, Mathf.Infinity);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.fixedDeltaTime * 10);
+
+            //Debug.DrawRay(transform.position, interpolatedNormal * 1000, Color.white, Mathf.Infinity);
+            //Debug.DrawRay(transform.position, transform.up * 1000, Color.yellow, Mathf.Infinity);
         }
     }
 }
