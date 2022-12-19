@@ -264,6 +264,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: oval_mod_terrain
       objectReference: {fileID: 0}
+    - target: {fileID: 7946215523897163988, guid: 0272d5b08108c7543b70c3ccbcd7249c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4c74f9cb9bc5fa443a3b6765771b4348, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0272d5b08108c7543b70c3ccbcd7249c, type: 3}
 --- !u!1001 &531572996
