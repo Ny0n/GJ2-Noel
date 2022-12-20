@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6126494985994138324}
   - component: {fileID: 6598330868404504480}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CursorMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7635604035517651726}
   - component: {fileID: 4729388027743873136}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
