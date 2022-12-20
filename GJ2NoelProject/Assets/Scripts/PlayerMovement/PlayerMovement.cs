@@ -22,9 +22,11 @@ public class PlayerMovement : MonoBehaviour
     private float _angle;
     [SerializeField] private float _angleSpeed;
     private bool _colliding;
+    private float currentSpeed;
     // Start is called before the first frame update
     void Start()
     {
+        currentSpeed = 0;
         _lastHitRayCastDistance = new float[_hoverPoints.Length];
 
         for (int i = 0; i < _lastHitRayCastDistance.Length; i++)
@@ -43,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
         _angle = 0;
 
         RaycastHit hit;
+        _grounded = true;
         for (int i = 0; i < _hoverPoints.Length; i++)
         {
             if (Physics.Raycast(_hoverPoints[i].position, -_hoverPoints[i].up, out hit, _length, ~_raycastIgnore) && hit.distance != _length)
@@ -50,25 +53,31 @@ public class PlayerMovement : MonoBehaviour
                 float forceAmount = _strength * (_length - hit.distance) / _length + (_dampening * (_lastHitRayCastDistance[i] - hit.distance));
                 _rigidbody.AddForceAtPosition(transform.up * forceAmount, _hoverPoints[i].position);
                 _lastHitRayCastDistance[i] = hit.distance;
-                _grounded = true;
+                
             }
             else
             {
                 Vector3 dowmVector = (-transform.up - Vector3.up).normalized;
-                _rigidbody.AddForceAtPosition((dowmVector * 9.81f * Time.fixedDeltaTime) / 4, _hoverPoints[i].position);
+                _rigidbody.AddForceAtPosition((dowmVector * 9.81f * Time.fixedDeltaTime) , _hoverPoints[i].position);
                 _lastHitRayCastDistance[i] = _length * 1.1f;
+                _grounded = false;
             }
         }
         if (!_grounded)
             return;
 
         FaceForwardWithUPDependingBarycentricCoordinate();
-
-        if (Input.GetKey(KeyCode.Z)&& !_colliding)
+        Debug.Log(Input.GetKey(KeyCode.Z) +" "+!_colliding +" "+ (currentSpeed < _speed));
+        if (Input.GetKey(KeyCode.Z) && !_colliding && currentSpeed < _speed)
         {
-            _rigidbody.velocity = transform.forward * _speed;
-            Debug.Log(_colliding);
+            currentSpeed += Time.fixedDeltaTime;
+            
         }
+        else if(currentSpeed > 0)
+            currentSpeed -= Time.fixedDeltaTime;
+
+        if(!_colliding)
+             _rigidbody.velocity = transform.forward * currentSpeed;
 
         if (Input.GetKey(KeyCode.Q))
             _angle -= _angleSpeed;
@@ -114,7 +123,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (Physics.Raycast(_center.position, -transform.up, out hit, Mathf.Infinity, ~_raycastIgnore))
         {
-            Debug.Log(hit.collider.name);
             // Just in case, also make sure the collider also has a renderer
             // material and texture
             MeshCollider meshCollider = hit.collider as MeshCollider;
