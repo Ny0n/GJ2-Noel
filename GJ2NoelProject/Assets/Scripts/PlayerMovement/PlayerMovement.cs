@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : NetworkBehaviour
@@ -47,23 +48,23 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Update()
     {
-        if (IsOwner) 
-        { 
-            if (Input.GetKey(KeyCode.Z))
-                ForwardAxis(1);
-            else if(Input.GetKey(KeyCode.S))
-                ForwardAxis(-1);
-            else
-                ForwardAxis(0);
-
-
-            if (Input.GetKey(KeyCode.Q))
-                LeftAxis(-1);
-            else if (Input.GetKey(KeyCode.D))
-                LeftAxis(1);
-            else
-                LeftAxis(0);
-        }
+        //if (IsOwner) 
+        //{ 
+        //    if (Input.GetKey(KeyCode.Z))
+        //        ForwardAxis(1);
+        //    else if(Input.GetKey(KeyCode.S))
+        //        ForwardAxis(-1);
+        //    else
+        //        ForwardAxis(0);
+        //
+        //
+        //    if (Input.GetKey(KeyCode.Q))
+        //        LeftAxis(-1);
+        //    else if (Input.GetKey(KeyCode.D))
+        //        LeftAxis(1);
+        //    else
+        //        LeftAxis(0);
+        //}
 
         if (_forwardAxisValue != 0 && !_colliding && _currentSpeed < _speed && _currentSpeed > -_speed)
         {
@@ -74,6 +75,26 @@ public class PlayerMovement : NetworkBehaviour
             _currentSpeed = _currentSpeed +(Time.deltaTime * _deccelerationPerFrame *(_currentSpeed > 0 ? -1 : 1));
 
 
+    }
+
+    public void Move(InputAction.CallbackContext context)
+    {
+        Vector2 vec2 = context.ReadValue<Vector2>();
+        if (vec2 != null)
+        {
+            if (vec2.x > 0)
+                LeftAxis(1);
+            else if (vec2.x < 0)
+                LeftAxis(-1);
+            else
+                LeftAxis(0);
+            if (vec2.y > 0) 
+                ForwardAxis(1);
+            else if (vec2.y < 0)
+                ForwardAxis(-1);
+            else
+                ForwardAxis(0);
+        }
     }
 
     private void ForwardAxis(float value)
