@@ -861,13 +861,13 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 8bc8c910-0894-42ad-a90b-6bfc7b271b1b
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: GameJam2
+  organizationId: gamejam2_smiley
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
