@@ -143,7 +143,8 @@ GameObject:
   - component: {fileID: 2614051201672684253}
   - component: {fileID: 2614051201672684254}
   - component: {fileID: 7595794299548902063}
-  - component: {fileID: 8587994564356721815}
+  - component: {fileID: 6520712456963987413}
+  - component: {fileID: 2959451521353224443}
   m_Layer: 2
   m_Name: LaPlanche
   m_TagString: Untagged
@@ -294,7 +295,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &8587994564356721815
+--- !u!114 &6520712456963987413
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -303,7 +304,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2614051201672684255}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e006a170edf64948a6a7642e559512d, type: 3}
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SyncPositionX: 1
@@ -320,6 +321,18 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
+--- !u!114 &2959451521353224443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2614051201672684255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2614051201826967485
 GameObject:
   m_ObjectHideFlags: 0

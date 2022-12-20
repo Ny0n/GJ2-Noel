@@ -47,22 +47,23 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Update()
     {
-       
+        if (IsOwner) 
+        { 
+            if (Input.GetKey(KeyCode.Z))
+                ForwardAxis(1);
+            else if(Input.GetKey(KeyCode.S))
+                ForwardAxis(-1);
+            else
+                ForwardAxis(0);
 
-        if (Input.GetKey(KeyCode.Z))
-            ForwardAxis(1);
-        else if(Input.GetKey(KeyCode.S))
-            ForwardAxis(-1);
-        else
-            ForwardAxis(0);
 
-
-        if (Input.GetKey(KeyCode.Q))
-            LeftAxis(-1);
-        else if (Input.GetKey(KeyCode.D))
-            LeftAxis(1);
-        else
-            LeftAxis(0);
+            if (Input.GetKey(KeyCode.Q))
+                LeftAxis(-1);
+            else if (Input.GetKey(KeyCode.D))
+                LeftAxis(1);
+            else
+                LeftAxis(0);
+        }
 
         if (_forwardAxisValue != 0 && !_colliding && _currentSpeed < _speed && _currentSpeed > -_speed)
         {
@@ -77,19 +78,29 @@ public class PlayerMovement : NetworkBehaviour
 
     private void ForwardAxis(float value)
     {
-        _forwardAxisValue = value;
+        ForwardAxisServerRPC(value);
     }
 
     private void LeftAxis(float value)
     {
+        LeftAxisServerRpc(value);
+    }
+
+    [ServerRpc]
+    private void ForwardAxisServerRPC(float value) 
+    {
+        _forwardAxisValue = value;
+    }
+
+    [ServerRpc]
+    private void LeftAxisServerRpc(float value)
+    {
         _leftAxisValue = value;
     }
+
     // Update is called once per frame
     void LateUpdate()
     {
-        
-        _angle = 0;
-
         RaycastHit hit;
         _grounded = true;
         for (int i = 0; i < _hoverPoints.Length; i++)
@@ -99,16 +110,21 @@ public class PlayerMovement : NetworkBehaviour
                 float forceAmount = _strength * (_length - hit.distance) / _length + (_dampening * (_lastHitRayCastDistance[i] - hit.distance));
                 _rigidbody.AddForceAtPosition(transform.up * forceAmount, _hoverPoints[i].position);
                 _lastHitRayCastDistance[i] = hit.distance;
-                
+
             }
             else
             {
                 Vector3 dowmVector = (-transform.up - Vector3.up).normalized;
-                _rigidbody.AddForceAtPosition((dowmVector * 9.81f * Time.fixedDeltaTime) , _hoverPoints[i].position);
+                _rigidbody.AddForceAtPosition((dowmVector * 9.81f * Time.fixedDeltaTime), _hoverPoints[i].position);
                 _lastHitRayCastDistance[i] = _length * 1.1f;
                 _grounded = false;
             }
         }
+        if (!IsServer)
+            return;
+        _angle = 0;
+
+        
         if (!_grounded)
             return;
 
