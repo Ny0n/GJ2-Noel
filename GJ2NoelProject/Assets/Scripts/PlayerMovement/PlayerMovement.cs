@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     [SerializeField] private Transform _center;
     [SerializeField] private LayerMask _raycastIgnore;
@@ -46,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+       
+
         if (Input.GetKey(KeyCode.Z))
             ForwardAxis(1);
         else if(Input.GetKey(KeyCode.S))
@@ -84,6 +87,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        
         _angle = 0;
 
         RaycastHit hit;
@@ -113,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
 
         _angle = _angleSpeed * _leftAxisValue;
 
-        if (!_colliding)
+        if (!_colliding )
              _rigidbody.velocity = transform.forward * _currentSpeed;
 
 
