@@ -1291,7 +1291,7 @@ MonoBehaviour:
   _startButton: {fileID: 43098889}
   _readyButton: {fileID: 1317356943}
   _readyText: {fileID: 1317356942}
-  _gameSceneName: GameScene
+  _gameSceneName: FranScene
 --- !u!4 &1181228292
 Transform:
   m_ObjectHideFlags: 0
