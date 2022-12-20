@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 2614051201672684251}
   - component: {fileID: 2614051201672684252}
   - component: {fileID: 2614051201672684253}
+  - component: {fileID: 3660611410199846778}
   m_Layer: 2
   m_Name: AIPlanche
   m_TagString: Untagged
@@ -155,8 +156,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2614051201672684255}
-  m_LocalRotation: {x: 0, y: -0.75253564, z: 0, w: 0.6585516}
-  m_LocalPosition: {x: 8.44, y: 4.43, z: 0.84}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -164,7 +165,7 @@ Transform:
   - {fileID: 221337078}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -97.621, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2614051201672684250
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -244,6 +245,36 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3660611410199846778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2614051201672684255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1246e30a4c1280429681e369c46b471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _accelerationPerFrame: 7
+  _angleSpeed: 10
+  _dampening: 20000
+  _deccelerationPerFrame: 10
+  _length: 1
+  _speed: 20
+  _currentTarget: 0
+  _strength: 6000
+  _raycastIgnore:
+    serializedVersion: 2
+    m_Bits: 4
+  _waypoints: []
+  _centerOfMass: {fileID: 221337078}
+  _hoverPoints:
+  - {fileID: 2614051200453161952}
+  - {fileID: 2614051201826967484}
+  - {fileID: 2614051201622819530}
+  - {fileID: 2614051202141444800}
 --- !u!1 &2614051201826967485
 GameObject:
   m_ObjectHideFlags: 0
