@@ -241,7 +241,7 @@ GameObject:
   - component: {fileID: 6520712456963987413}
   - component: {fileID: 2959451521353224443}
   - component: {fileID: 8134463745891029813}
-  - component: {fileID: 432732336344061699}
+  - component: {fileID: 5324568429506793908}
   m_Layer: 2
   m_Name: LaPlanche
   m_TagString: Untagged
@@ -526,7 +526,7 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &432732336344061699
+--- !u!114 &5324568429506793908
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -538,8 +538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221a8ed6450c8bb47addd833fe83f047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gos:
-  - {fileID: 2614051202258248353}
+  go: {fileID: 2614051202258248353}
 --- !u!1 &2614051201826967485
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,7 +620,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2614051202258248352
 Transform:
   m_ObjectHideFlags: 0
@@ -629,8 +628,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2614051202258248353}
-  m_LocalRotation: {x: 0.17842476, y: -0.000066757195, z: 0.00001208484, w: 0.9839536}
-  m_LocalPosition: {x: 0.00054210424, y: 4, z: -4.000001}
+  m_LocalRotation: {x: 0.17842478, y: -0.000066787004, z: 0.000012099743, w: 0.9839536}
+  m_LocalPosition: {x: 0.0005427599, y: 4, z: -4.000001}
   m_LocalScale: {x: 2, y: 1.9999999, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -779,7 +778,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8123471449448416100}
-  m_LocalRotation: {x: 0.17842478, y: -0.000066787004, z: 0.000012084842, w: 0.9839536}
+  m_LocalRotation: {x: 0.17842478, y: -0.000066787004, z: 0.000012099743, w: 0.9839536}
   m_LocalPosition: {x: 0.0005427599, y: 4, z: -4.000001}
   m_LocalScale: {x: 1, y: 1.5811746, z: 1.1526598}
   m_ConstrainProportionsScale: 0

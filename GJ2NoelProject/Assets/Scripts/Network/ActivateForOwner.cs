@@ -5,16 +5,15 @@ using UnityEngine;
 
 public class ActivateForOwner :NetworkBehaviour
 {
-    [SerializeField] private GameObject[] gos;
+    [SerializeField] private GameObject go;
     // Start is called before the first frame update
     void Start()
     {
         if (!IsOwner)
-            return;
-
-        foreach(GameObject go in gos) 
         {
-            go.SetActive(true);
+            Destroy(go);
         }
+        else
+            go.SetActive(true);
     }
 }
