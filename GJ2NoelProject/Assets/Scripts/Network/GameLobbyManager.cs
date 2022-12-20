@@ -132,11 +132,14 @@ namespace Network
             return await LobbyManager.Instance.UpdateLobbyData(_lobbyData.Serialize());
         }
 
-        public async Task StartGame()
+        public async Task StartGame(string sceneName)
         {
+            _lobbyData.SceneName = sceneName;
+
             var relayJoinCode = await RelayManager.Instance.CreateRelay(MAX_NUMBER_OF_PLAYERS);
 
             _lobbyData.RelayJoinCode = relayJoinCode;
+
             await LobbyManager.Instance.UpdateLobbyData(_lobbyData.Serialize());
 
             var allocationId = RelayManager.Instance.GetAllocationId();

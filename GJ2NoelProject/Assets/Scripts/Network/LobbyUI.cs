@@ -19,6 +19,9 @@ public class LobbyUI : MonoBehaviour
     [Header("Ready Button")]
     [SerializeField] private Button _readyButton;
     [SerializeField] private TextMeshProUGUI _readyText;
+
+    [Space(10)]
+    [SerializeField] private string _gameSceneName;
     
     /*
     [Space(10)]
@@ -198,6 +201,6 @@ public class LobbyUI : MonoBehaviour
     private async void OnStartButtonClicked()
     {
         // await GameLobbyManager.Instance.SetSelectedMap(_currentMapIndex, _mapSelectionData.Maps[_currentMapIndex].SceneName);
-        await GameLobbyManager.Instance.StartGame();
+        await GameLobbyManager.Instance.StartGame(_gameSceneName);
     }
 }
