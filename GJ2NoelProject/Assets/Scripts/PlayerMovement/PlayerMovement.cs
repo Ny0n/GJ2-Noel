@@ -30,6 +30,15 @@ public class PlayerMovement : NetworkBehaviour
     private float _currentSpeed;
     private float _forwardAxisValue;
     private float _leftAxisValue;
+
+    private bool _controlsActivated;
+
+    private void Awake()
+    {
+        GameEvents.OnWaitForPlayers += DisableMovements;
+        GameEvents.OnStartRace += EnableMovements;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,9 +56,11 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Update()
     {
+        if (!_controlsActivated) return;
+
         if (IsOwner) 
         { 
-            if (Input.GetKey(KeyCode.Z))
+            if (Input.GetKey(KeyCode.W))
                 ForwardAxis(1);
             else if(Input.GetKey(KeyCode.S))
                 ForwardAxis(-1);
@@ -57,7 +68,7 @@ public class PlayerMovement : NetworkBehaviour
                 ForwardAxis(0);
 
 
-            if (Input.GetKey(KeyCode.Q))
+            if (Input.GetKey(KeyCode.A))
                 LeftAxis(-1);
             else if (Input.GetKey(KeyCode.D))
                 LeftAxis(1);
@@ -68,12 +79,27 @@ public class PlayerMovement : NetworkBehaviour
         if (_forwardAxisValue != 0 && !_colliding && _currentSpeed < _speed && _currentSpeed > -_speed)
         {
             _currentSpeed += Time.deltaTime * _accelerationPerFrame * _forwardAxisValue;
-
         }
-        else 
-            _currentSpeed = _currentSpeed +(Time.deltaTime * _deccelerationPerFrame *(_currentSpeed > 0 ? -1 : 1));
+        else
+        {
+            _currentSpeed = _currentSpeed + (Time.deltaTime * _deccelerationPerFrame * (_currentSpeed > 0 ? -1 : 1));
+        }
+    }
 
+    private void OnDisable()
+    {
+        GameEvents.OnWaitForPlayers -= DisableMovements;
+        GameEvents.OnStartRace -= EnableMovements;
+    }
 
+    private void EnableMovements()
+    {
+        _controlsActivated = true;
+    }
+
+    private void DisableMovements()
+    {
+        _controlsActivated = false;
     }
 
     private void ForwardAxis(float value)
