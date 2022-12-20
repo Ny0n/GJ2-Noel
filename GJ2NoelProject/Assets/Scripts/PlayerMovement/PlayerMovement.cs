@@ -79,6 +79,8 @@ public class PlayerMovement : NetworkBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
+        if (!IsOwner)
+            return;
         Vector2 vec2 = context.ReadValue<Vector2>();
         if (vec2 != null)
         {
