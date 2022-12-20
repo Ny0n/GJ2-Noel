@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _colliding;
     private float _currentSpeed;
+    private float _forwardAxisValue;
+    private float _leftAxisValue;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,19 +46,44 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Z) && !_colliding && _currentSpeed < _speed)
+        if (Input.GetKey(KeyCode.Z))
+            ForwardAxis(1);
+        else if(Input.GetKey(KeyCode.S))
+            ForwardAxis(-1);
+        else
+            ForwardAxis(0);
+
+
+        if (Input.GetKey(KeyCode.Q))
+            LeftAxis(-1);
+        else if (Input.GetKey(KeyCode.D))
+            LeftAxis(1);
+        else
+            LeftAxis(0);
+
+        if (_forwardAxisValue != 0 && !_colliding && _currentSpeed < _speed && _currentSpeed > -_speed)
         {
-            _currentSpeed += Time.deltaTime * _accelerationPerFrame;
+            _currentSpeed += Time.deltaTime * _accelerationPerFrame * _forwardAxisValue;
 
         }
-        else if (_currentSpeed > 0)
-            _currentSpeed -= Time.deltaTime * _deccelerationPerFrame;
+        else 
+            _currentSpeed = _currentSpeed +(Time.deltaTime * _deccelerationPerFrame *(_currentSpeed > 0 ? -1 : 1));
+
+
     }
 
+    private void ForwardAxis(float value)
+    {
+        _forwardAxisValue = value;
+    }
+
+    private void LeftAxis(float value)
+    {
+        _leftAxisValue = value;
+    }
     // Update is called once per frame
     void LateUpdate()
     {
-
         _angle = 0;
 
         RaycastHit hit;
@@ -83,15 +110,12 @@ public class PlayerMovement : MonoBehaviour
 
         FaceForwardWithUPDependingBarycentricCoordinate();
 
-        
 
-        if(!_colliding)
+        _angle = _angleSpeed * _leftAxisValue;
+
+        if (!_colliding)
              _rigidbody.velocity = transform.forward * _currentSpeed;
 
-        if (Input.GetKey(KeyCode.Q))
-            _angle -= _angleSpeed;
-        if (Input.GetKey(KeyCode.D))
-            _angle += _angleSpeed;
 
 
         
