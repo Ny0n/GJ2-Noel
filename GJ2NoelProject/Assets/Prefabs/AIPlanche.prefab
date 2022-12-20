@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _accelerationPerFrame: 7
-  _angleSpeed: 10
+  _angleSpeed: 20
   _dampening: 20000
   _deccelerationPerFrame: 10
   _length: 1
