@@ -378,7 +378,7 @@ MonoBehaviour:
   _strength: 6000
   _dampening: 20000
   _centerOfMass: {fileID: 221337078}
-  _angleSpeed: 10
+  _angleSpeed: 45
 --- !u!114 &7595794299548902063
 MonoBehaviour:
   m_ObjectHideFlags: 0
