@@ -20,6 +20,7 @@ namespace UI
         [Header("Join Menu")]
         [SerializeField] private GameObject joinMenu;
         [SerializeField] private Button submitCodeButton;
+        [SerializeField] private Button backButton;
         [SerializeField] private TextMeshProUGUI codeText;
 
         [Header("Name Panel")] 
@@ -78,6 +79,11 @@ namespace UI
             playMenu.SetActive(true);
             joinMenu.SetActive(false);
         }
+        private void RemoveNameSubmitListener()
+        {
+            _nameSubmit.onClick.RemoveListener(OnJoinClicked);
+            backButton.onClick.RemoveListener(RemoveNameSubmitListener);
+        }
 
         private void SetUpNamePanelHost()
         {
@@ -86,7 +92,9 @@ namespace UI
         private void SetUpNamePanelJoin()
         {
             _nameSubmit.onClick.AddListener(OnJoinClicked);
+            backButton.onClick.AddListener(RemoveNameSubmitListener);
         }
+
         public void SetName()
         {
             CursorManager.Instance.Name = _nameText.text;
