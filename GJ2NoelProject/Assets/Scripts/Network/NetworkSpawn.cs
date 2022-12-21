@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,7 +11,6 @@ public class NetworkSpawn : NetworkBehaviour
     private int indexSpawned;
     private bool _bjobDone;
 
-    private NetworkObject netObj;
     void Start()
     {
         StartCoroutine(SpawnCoroutine());
@@ -24,25 +24,25 @@ public class NetworkSpawn : NetworkBehaviour
     private IEnumerator SpawnCoroutine()
     {
         yield return new WaitForSeconds(0.5f);
+        SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
 
-        while (!_bjobDone)
-        {
-            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
-            yield return new WaitForSeconds(5);
-        }
+        //while (!_bjobDone)
+        //{
+        //    yield return new WaitForSeconds(5);
+        //}
 
     }
 
     [ServerRpc(RequireOwnership = false)] //server owns this object but client can request a spawn
     public void SpawnPlayerServerRpc(ulong clientId)
     {
-        
-        if (netObj != null)
-            return;
+        // Guard
+        NetworkManager.Singleton.ConnectedClients.TryGetValue(clientId, out var client);
+        if (client.OwnedObjects.FirstOrDefault(i => i.GetComponent<PlayerMovement>() != null) != null) return;
 
         GameObject newPlayer;
-        newPlayer = (GameObject)Instantiate(_playerPrefab, spawnLocation[indexSpawned].position, spawnLocation[indexSpawned].rotation);
-        netObj = newPlayer.GetComponent<NetworkObject>();
+        newPlayer = Instantiate(_playerPrefab, spawnLocation[indexSpawned].position, spawnLocation[indexSpawned].rotation);
+        NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientId, true);
 

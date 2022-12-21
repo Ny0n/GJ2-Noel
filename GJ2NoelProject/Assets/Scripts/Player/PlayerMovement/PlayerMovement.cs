@@ -136,13 +136,15 @@ public class PlayerMovement : NetworkBehaviour
     [ServerRpc]
     private void ForwardAxisServerRPC(float value) 
     {
-        _forwardAxisValue = value;
+        if (_controlsActivated)
+            _forwardAxisValue = value;
     }
 
     [ServerRpc]
     private void LeftAxisServerRpc(float value)
     {
-        _leftAxisValue = value;
+        if (_controlsActivated)
+            _leftAxisValue = value;
     }
 
     // Update is called once per frame

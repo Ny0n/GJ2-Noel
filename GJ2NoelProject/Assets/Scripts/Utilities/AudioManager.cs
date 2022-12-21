@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using Unity.Netcode;
 
-public class AudioManager : NetworkBehaviour
+public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
     
