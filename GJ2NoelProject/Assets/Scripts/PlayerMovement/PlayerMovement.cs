@@ -79,6 +79,8 @@ public class PlayerMovement : NetworkBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
+        if (!IsOwner)
+            return;
         Vector2 vec2 = context.ReadValue<Vector2>();
         if (vec2 != null)
         {
@@ -122,6 +124,11 @@ public class PlayerMovement : NetworkBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (!IsServer)
+            return;
+        if (!IsOwner)
+            Debug.Log(_leftAxisValue + " " + _forwardAxisValue);
+
         RaycastHit hit;
         _grounded = true;
         for (int i = 0; i < _hoverPoints.Length; i++)
@@ -141,8 +148,6 @@ public class PlayerMovement : NetworkBehaviour
                 _grounded = false;
             }
         }
-        if (!IsServer)
-            return;
         _angle = 0;
 
         
