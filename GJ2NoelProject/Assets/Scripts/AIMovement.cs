@@ -70,7 +70,7 @@ public class AIMovement : MonoBehaviour
 
         Debug.DrawRay(transform.position, transform.forward);
 
-        if (angleDiff > -_angleSpeed*1.5 && angleDiff < _angleSpeed*1.5 && secondAngleDiff > -_angleSpeed*3 && secondAngleDiff < _angleSpeed*3)
+        if (angleDiff > -_angleSpeed*1.5 && angleDiff < _angleSpeed*1.5)
             ForwardAxis(1);
         else
             ForwardAxis(-1f);
@@ -83,14 +83,11 @@ public class AIMovement : MonoBehaviour
             LeftAxis(0f);
 
         if (_forwardAxisValue != 0 && !_colliding && _currentSpeed < _speed && _currentSpeed > -_speed)
-        {
             _currentSpeed += Time.deltaTime * _accelerationPerFrame * _forwardAxisValue;
-
-        }
         else
             _currentSpeed += (Time.deltaTime * _deccelerationPerFrame * (_currentSpeed > 0 ? -1 : 1));
 
-        if (Vector3.Distance(transform.position, targetPosition) < 10)
+        if (Vector3.Distance(transform.position, targetPosition) < 5)
         {
             Debug.Log("Changement de waypoint");
             if (_waypoints.Length == _currentTarget + 1)
