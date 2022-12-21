@@ -14,6 +14,9 @@ public class StartRaceManager : NetworkBehaviour
 
     [SerializeField] private TextMeshProUGUI _countDownText;
 
+    [SerializeField] private AudioSource _startSound;
+    [SerializeField] private AudioSource _startSoundEnd;
+
     private void Start()
     {
         _countDownText.text = "Waiting for all player to be connected ...";
@@ -33,10 +36,12 @@ public class StartRaceManager : NetworkBehaviour
         for (int i = _countDownMax; i > 0; i--)
         {
             CountDownClientRpc(i.ToString());
+            PlaySoundClientRpc(true);
             yield return new WaitForSeconds(1);
         }
 
         CountDownClientRpc("Start !!!");
+        PlaySoundClientRpc(false);
         InvokeStartRaceEventsClientRpc();
 
         yield return new WaitForSeconds(1);
@@ -54,6 +59,15 @@ public class StartRaceManager : NetworkBehaviour
     {
         GameEvents.OnStartRace?.Invoke();
     }
+
+    [ClientRpc]
+    private void PlaySoundClientRpc(bool countDown)
+    {
+        if (countDown)
+            _startSound.Play();
+        else
+            _startSoundEnd.Play();
+    } 
 
     [ClientRpc]
     private void CountDownClientRpc(string value)
