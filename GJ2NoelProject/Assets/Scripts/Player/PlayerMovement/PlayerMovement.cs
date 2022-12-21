@@ -108,9 +108,9 @@ public class PlayerMovement : NetworkBehaviour
         Vector2 vec2 = context.ReadValue<Vector2>();
         if (vec2 != null)
         {
-            if (vec2.x > 0)
+            if (vec2.x > 0f)
                 LeftAxis(1);
-            else if (vec2.x < 0)
+            else if (vec2.x < 0f)
                 LeftAxis(-1);
             else
                 LeftAxis(0);
@@ -183,7 +183,7 @@ public class PlayerMovement : NetworkBehaviour
         FaceForwardWithUPDependingBarycentricCoordinate();
 
 
-        _angle = _angleSpeed * _leftAxisValue;
+        _angle = _angleSpeed * _leftAxisValue * (_currentSpeed < 0 ? -1 : 1);
 
         if (!_colliding )
              _rigidbody.velocity = transform.forward * _currentSpeed;

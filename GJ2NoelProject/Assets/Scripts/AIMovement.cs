@@ -49,6 +49,8 @@ public class AIMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("_currentSpeed : " + _currentSpeed);
+
         Vector3 targetPosition = _waypoints[_currentTarget].position + new Vector3(Random.Range(-15, 15), 0, Random.Range(-15, 15));
         Vector3 heading = targetPosition - transform.position;
         Vector3 headingNext;
@@ -138,7 +140,7 @@ public class AIMovement : MonoBehaviour
         FaceForwardWithUPDependingBarycentricCoordinate();
 
 
-        _angle = _angleSpeed * _leftAxisValue;
+        _angle = _angleSpeed * _leftAxisValue * (_currentSpeed < 0 ? -1 : 1);
 
         if (!_colliding)
             _rigidbody.velocity = transform.forward * _currentSpeed;
