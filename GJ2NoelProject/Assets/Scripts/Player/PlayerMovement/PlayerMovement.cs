@@ -31,6 +31,15 @@ public class PlayerMovement : NetworkBehaviour
     private float _currentSpeed;
     private float _forwardAxisValue;
     private float _leftAxisValue;
+
+    private bool _controlsActivated;
+
+    private void Awake()
+    {
+        GameEvents.OnWaitForPlayers += DisableMovements;
+        GameEvents.OnStartRace += EnableMovements;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,12 +78,27 @@ public class PlayerMovement : NetworkBehaviour
         if (_forwardAxisValue != 0 && !_colliding && _currentSpeed < _speed && _currentSpeed > -_speed)
         {
             _currentSpeed += Time.deltaTime * _accelerationPerFrame * _forwardAxisValue;
-
         }
-        else 
-            _currentSpeed = _currentSpeed +(Time.deltaTime * _deccelerationPerFrame *(_currentSpeed > 0 ? -1 : 1));
+        else
+        {
+            _currentSpeed = _currentSpeed + (Time.deltaTime * _deccelerationPerFrame * (_currentSpeed > 0 ? -1 : 1));
+        }
+    }
 
+    private void OnDisable()
+    {
+        GameEvents.OnWaitForPlayers -= DisableMovements;
+        GameEvents.OnStartRace -= EnableMovements;
+    }
 
+    private void EnableMovements()
+    {
+        _controlsActivated = true;
+    }
+
+    private void DisableMovements()
+    {
+        _controlsActivated = false;
     }
 
     public void Move(InputAction.CallbackContext context)
