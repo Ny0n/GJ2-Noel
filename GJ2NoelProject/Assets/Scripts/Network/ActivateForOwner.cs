@@ -11,7 +11,7 @@ public class ActivateForOwner :NetworkBehaviour
     {
         if (!IsOwner)
         {
-            Destroy(go);
+            go.SetActive(false);
         }
         else
             go.SetActive(true);

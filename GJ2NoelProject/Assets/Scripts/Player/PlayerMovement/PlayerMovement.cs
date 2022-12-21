@@ -125,12 +125,14 @@ public class PlayerMovement : NetworkBehaviour
 
     private void ForwardAxis(float value)
     {
-        ForwardAxisServerRPC(value);
+        if(_controlsActivated)
+            ForwardAxisServerRPC(value);
     }
 
     private void LeftAxis(float value)
     {
-        LeftAxisServerRpc(value);
+        if (_controlsActivated)
+            LeftAxisServerRpc(value);
     }
 
     [ServerRpc]
