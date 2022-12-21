@@ -54,12 +54,6 @@ public class PowerUpScroll : MonoBehaviour
     
     private bool _startWaitingForCenterItem = false;
     private PowerUpSprite _centerItem;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -124,7 +118,7 @@ public class PowerUpScroll : MonoBehaviour
 
         if (_currentRollCount < 2)
         {
-            _sprites.Add(_sprites[0]);
+            _sprites.Add(GenerateSpriteGO(_sprites[0].CurrentPowerUp));
         }
         
         // shuffle
