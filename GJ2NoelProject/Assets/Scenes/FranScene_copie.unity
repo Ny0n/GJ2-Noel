@@ -187,6 +187,8 @@ MonoBehaviour:
   _timeBeforeCountdown: 10
   _countDownMax: 3
   _countDownText: {fileID: 1857592730}
+  _startSound: {fileID: 0}
+  _startSoundEnd: {fileID: 0}
 --- !u!1 &135862823
 GameObject:
   m_ObjectHideFlags: 0
