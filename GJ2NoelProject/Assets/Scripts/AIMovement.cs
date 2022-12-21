@@ -49,7 +49,8 @@ public class AIMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 heading = _waypoints[_currentTarget].position - transform.position;
+        Vector3 targetPosition = _waypoints[_currentTarget].position + new Vector3(Random.Range(-15, 15), 0, Random.Range(-15, 15));
+        Vector3 heading = targetPosition - transform.position;
         Vector3 headingNext;
         if (_waypoints.Length == _currentTarget + 1)
             headingNext = _waypoints[0].position - transform.position;
@@ -89,7 +90,7 @@ public class AIMovement : MonoBehaviour
         else
             _currentSpeed += (Time.deltaTime * _deccelerationPerFrame * (_currentSpeed > 0 ? -1 : 1));
 
-        if (Vector3.Distance(transform.position, _waypoints[_currentTarget].position) < 10)
+        if (Vector3.Distance(transform.position, targetPosition) < 10)
         {
             Debug.Log("Changement de waypoint");
             if (_waypoints.Length == _currentTarget + 1)
