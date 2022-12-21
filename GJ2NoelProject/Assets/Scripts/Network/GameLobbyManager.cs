@@ -40,7 +40,6 @@ namespace Network
             _localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, CursorManager.Instance.Name);
             
             _lobbyData = new LobbyData();
-            _lobbyData.Initialize(0);
 
             return await LobbyManager.Instance.CreateLobby(MAX_NUMBER_OF_PLAYERS, true, _localLobbyPlayerData.Serialize(), _lobbyData.Serialize());
         }
@@ -119,19 +118,6 @@ namespace Network
             return _lobbyPlayerDatas != null && _localLobbyPlayerData.IsReady;
         }
 
-        public int GetMapIndex()
-        {
-            return _lobbyData.MapIndex;
-        }
-
-        public async Task<bool> SetSelectedMap(int currentMapIndex, string sceneName)
-        {
-            _lobbyData.MapIndex = currentMapIndex;
-            _lobbyData.SceneName = sceneName;
-
-            return await LobbyManager.Instance.UpdateLobbyData(_lobbyData.Serialize());
-        }
-
         public async Task StartGame(string sceneName)
         {
             _lobbyData.SceneName = sceneName;
@@ -158,18 +144,6 @@ namespace Network
             await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id, _localLobbyPlayerData.Serialize(), allocationId, connectionData);
             
             return true;
-        }
-
-        public int GetLocalSkinIndex()
-        {
-            return _localLobbyPlayerData.SkinIndex;
-        }
-
-        public async Task<bool> SetLocalSkinIndex(int skinIndex)
-        {
-            _localLobbyPlayerData.SkinIndex = skinIndex;
-            
-            return await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id, _localLobbyPlayerData.Serialize());
         }
     }
 }
