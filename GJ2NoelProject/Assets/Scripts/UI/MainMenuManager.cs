@@ -27,6 +27,10 @@ namespace UI
         [SerializeField] private GameObject _namePanel;
         [SerializeField] private Button _nameSubmit;
         [SerializeField] private TextMeshProUGUI _nameText;
+        
+        [Header("Other")] 
+        [SerializeField] private Toggle _musicToggle;
+        [SerializeField] private Toggle _sfxToggle;
 
         private const string LOBBY_SCENE = "Lobby";
         
@@ -36,6 +40,15 @@ namespace UI
             joinButton.onClick.AddListener(SetUpNamePanelJoin);
             
             submitCodeButton.onClick.AddListener(OnSubmitClicked);
+            
+            _musicToggle.onValueChanged.AddListener(delegate(bool value) { AudioManager.Instance.SetActiveMusic(value); });
+            _sfxToggle.onValueChanged.AddListener(delegate(bool value) { AudioManager.Instance.SetActiveSFX(value); });
+        }
+
+        private void Start()
+        {
+            _musicToggle.SetIsOnWithoutNotify(AudioManager.Instance.IsMusicActive);
+            _sfxToggle.SetIsOnWithoutNotify(AudioManager.Instance.IsSFXActive);
         }
 
         private async void OnSubmitClicked()
@@ -57,6 +70,9 @@ namespace UI
             joinButton.onClick.RemoveListener(OnJoinClicked);
             
             submitCodeButton.onClick.RemoveListener(OnSubmitClicked);
+            
+            _musicToggle.onValueChanged.RemoveAllListeners();
+            _sfxToggle.onValueChanged.RemoveAllListeners();
         }
         
         private async void OnHostClicked()

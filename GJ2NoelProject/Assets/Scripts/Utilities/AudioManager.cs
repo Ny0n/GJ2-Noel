@@ -49,11 +49,6 @@ public class AudioManager : MonoBehaviour
     {
         if (!IsPlaying("theme"))
             Play("theme"); // we play the theme song
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Play("taunt");
-        }
     }
 
     [ClientRpc]
