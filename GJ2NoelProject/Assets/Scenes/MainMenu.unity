@@ -1144,7 +1144,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lutins Kart
+  m_text: Lutin's Karts
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cd6c1fcdc2307744b80b35b1dde5e14d, type: 2}
   m_sharedMaterial: {fileID: 5325377457933463264, guid: cd6c1fcdc2307744b80b35b1dde5e14d,
