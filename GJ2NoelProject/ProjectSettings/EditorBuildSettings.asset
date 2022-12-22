@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BaptiScene.unity
     guid: 9d3366bb3348c5c4fa4077bc8e624996
+  - enabled: 1
+    path: Assets/Scenes/ArthurSceneTest.unity
+    guid: b27ae7d5a141b9d45b3f61fe49e9e790
   m_configObjects: {}

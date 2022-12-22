@@ -49,7 +49,6 @@ public class AIMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("_currentSpeed : " + _currentSpeed);
 
         Vector3 targetPosition = _waypoints[_currentTarget].position + new Vector3(Random.Range(-15, 15), 0, Random.Range(-15, 15));
         Vector3 heading = targetPosition - transform.position;
@@ -65,10 +64,7 @@ public class AIMovement : MonoBehaviour
         float angleDiff = Mathf.Abs(Vector3.SignedAngle(transform.forward, heading, transform.forward));
         float secondAngleDiff = Mathf.Abs(Vector3.SignedAngle(transform.forward, headingNext, transform.forward));
 
-        if (_currentSpeed < 0.25)
-        {
-            Debug.Log("Pas assez vite !");
-        }
+
 
         Debug.DrawRay(transform.position, transform.forward);
 
@@ -91,10 +87,8 @@ public class AIMovement : MonoBehaviour
 
         if (Vector3.Distance(transform.position, targetPosition) < 5)
         {
-            Debug.Log("Changement de waypoint");
             if (_waypoints.Length == _currentTarget + 1)
             {
-                Debug.Log("Tour terminé");
                 _currentTarget = 0;
             }
             else
