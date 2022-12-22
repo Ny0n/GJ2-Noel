@@ -170,7 +170,7 @@ public class ArcadeKart : NetworkBehaviour
     bool m_CanMove = true;
     List<StatPowerup> m_ActivePowerupList = new List<StatPowerup>();
     ArcadeKart.Stats m_FinalStats;
-    float turnInput;
+    public float turnInput { get; private set; }
     bool wantToAccelerate = false;
     bool wantToBrake = false;
 
