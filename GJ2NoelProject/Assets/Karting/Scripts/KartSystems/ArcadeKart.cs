@@ -187,8 +187,8 @@ public class ArcadeKart : NetworkBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        if (!IsOwner)
-            return;
+        Debug.Log(context.ReadValue<Vector2>());
+
         ActionServerRPC(context.ReadValue<Vector2>());
         //Vector2 vec2 = context.ReadValue<Vector2>();
         //turnInput = vec2.x;
@@ -212,7 +212,7 @@ public class ArcadeKart : NetworkBehaviour
     [ServerRpc]
     public void ActionServerRPC(Vector2 vec2)
     {
-       
+        Debug.Log(vec2+" a");
         turnInput = vec2.x;
         if (vec2.y > 0)
         {
@@ -442,13 +442,12 @@ public class ArcadeKart : NetworkBehaviour
         }
     }
 
-    void MoveVehicle(bool accelerate, bool brake, float turnInput)
-    {
-        MoveVehicleServerRPC(accelerate, brake, turnInput);
-    }
+    //void MoveVehicle(bool accelerate, bool brake, float turnInput)
+    //{
+    //    MoveVehicleServerRPC(accelerate, brake, turnInput);
+    //}
 
-    [ServerRpc (RequireOwnership = false)]
-    void MoveVehicleServerRPC(bool accelerate, bool brake, float turnInput)
+    void MoveVehicle(bool accelerate, bool brake, float turnInput)
     {
         float accelInput = (accelerate ? 1.0f : 0.0f) - (brake ? 1.0f : 0.0f);
 
