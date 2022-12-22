@@ -50,6 +50,8 @@ public class LobbyUI : MonoBehaviour
     private void Start()
     {
         _lobbyCodeText.text = GameLobbyManager.Instance.GetLobbyCode();
+        _startButton.gameObject.SetActive(false);
+
     }
 
     private async void OnReadyPressed()
