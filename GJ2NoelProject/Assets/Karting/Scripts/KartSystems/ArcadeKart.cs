@@ -189,7 +189,30 @@ public class ArcadeKart : NetworkBehaviour
     {
         if (!IsOwner)
             return;
-        Vector2 vec2 = context.ReadValue<Vector2>();
+        ActionServerRPC(context.ReadValue<Vector2>());
+        //Vector2 vec2 = context.ReadValue<Vector2>();
+        //turnInput = vec2.x;
+        //if (vec2.y > 0)
+        //{
+        //    wantToAccelerate = true;
+        //    wantToBrake = false;
+        //}
+        //else if (vec2.y < 0)
+        //{
+        //    wantToBrake = true;
+        //    wantToAccelerate = false;
+        //}
+        //else
+        //{
+        //    wantToAccelerate = false;
+        //    wantToBrake = false;
+        //}
+    }
+
+    [ServerRpc]
+    public void ActionServerRPC(Vector2 vec2)
+    {
+       
         turnInput = vec2.x;
         if (vec2.y > 0)
         {
