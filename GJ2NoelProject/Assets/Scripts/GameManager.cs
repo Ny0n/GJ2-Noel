@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
     private KartController[] _classification;
     private KartController[] _karts;
 
-    [SerializeField] private IPanel _classificationPanel;
+    [SerializeField] private RectTransform _classificationPanel;
 
     public Waypoint[] Waypoints;
 
@@ -38,6 +38,19 @@ public class GameManager : MonoBehaviour
                 else if (!_classification.Contains(kart))
                     _classification[i] = kart;
             }
+            if (i == 0)
+                _classificationPanel.GetChild(i).GetComponent<TextMeshProUGUI>().text = "1st lutin - " + _classification[i].name;
+            else if (i == 1)
+                _classificationPanel.GetChild(i).GetComponent<TextMeshProUGUI>().text = "2nd lutin - " + _classification[i].name;
+            else if (i == 2)
+                _classificationPanel.GetChild(i).GetComponent<TextMeshProUGUI>().text = "3rd lutin - " + _classification[i].name;
+            else if (i == 3)
+                _classificationPanel.GetChild(i).GetComponent<TextMeshProUGUI>().text = "4th lutin - " + _classification[i].name;
+        }
+
+        for (int i = 0; i < _classification.Length; i++)
+        {
+            _classification[i] = null;
         }
     }
 
