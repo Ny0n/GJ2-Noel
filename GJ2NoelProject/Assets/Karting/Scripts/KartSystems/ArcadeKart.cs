@@ -189,7 +189,7 @@ public class ArcadeKart : NetworkBehaviour
     {
         Debug.Log(context.ReadValue<Vector2>());
 
-        ActionServerRPC(context.ReadValue<Vector2>());
+        ActionServerRpc(context.ReadValue<Vector2>());
         //Vector2 vec2 = context.ReadValue<Vector2>();
         //turnInput = vec2.x;
         //if (vec2.y > 0)
@@ -210,7 +210,7 @@ public class ArcadeKart : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void ActionServerRPC(Vector2 vec2)
+    public void ActionServerRpc(Vector2 vec2)
     {
         Debug.Log(vec2+" a");
         turnInput = vec2.x;
