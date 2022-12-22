@@ -187,8 +187,10 @@ public class ArcadeKart : NetworkBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        Debug.Log(context.ReadValue<Vector2>());
+        if (!IsOwner)
+            return;
 
+        Debug.Log(context.ReadValue<Vector2>());
         ActionServerRpc(context.ReadValue<Vector2>());
         //Vector2 vec2 = context.ReadValue<Vector2>();
         //turnInput = vec2.x;
