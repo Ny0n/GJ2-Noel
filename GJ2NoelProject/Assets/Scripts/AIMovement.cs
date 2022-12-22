@@ -15,8 +15,8 @@ public class AIMovement : KartController
     private float _leftAxisValue;
     private float[] _lastHitRayCastDistance;
     private GameManager _gameManager;
-    private Rigidbody _rigidbody;
     private Waypoint[] _waypoints;
+    private Rigidbody _rigidbody;
 
     [SerializeField] private float _accelerationPerFrame;
     [SerializeField] private float _angleSpeed;
@@ -48,6 +48,7 @@ public class AIMovement : KartController
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.centerOfMass = _centerOfMass.localPosition;
 
+        _gameManager.AddKart(this);
         _waypoints = _gameManager.Waypoints;
     }
 

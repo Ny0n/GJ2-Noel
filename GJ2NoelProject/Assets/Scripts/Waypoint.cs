@@ -22,16 +22,22 @@ public class Waypoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        KartController kart = other.gameObject.GetComponent<KartController>();
+        KartController kartIA = other.gameObject.GetComponent<KartController>();
+        KartController kartPlayer = other.gameObject.GetComponentInParent<KartController>();
 
-        if (kart)
+        if (kartIA)
         {
-            kart.CurrentWaypointTargetting = NextWaypoint;
+            kartIA.CurrentWaypointTargetting = NextWaypoint;
             
             if (NextWaypoint == 0)
-            {
-                _gameManager.NewLap(kart);
-            }
+                _gameManager.NewLap(kartIA);
+        }
+        else if (kartPlayer)
+        {
+            kartPlayer.CurrentWaypointTargetting = NextWaypoint;
+
+            if (NextWaypoint == 0)
+                _gameManager.NewLap(kartPlayer);
         }
     }
 }

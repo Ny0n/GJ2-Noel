@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.Collections;
+using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     private KartController[] _classification;
-    private KartController[] _karts;
+    private List<KartController> _karts = new List<KartController>();
 
     [SerializeField] private RectTransform _classificationPanel;
 
@@ -16,14 +19,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _karts = FindObjectsOfType<KartController>();
-        _classification = new KartController[_karts.Length];
+        _classification = new KartController[4];
     }
 
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < _karts.Length; i++)
+        for (int i = 0; i < _karts.Count; i++)
         {
             foreach (KartController kart in _karts)
             {
@@ -39,20 +41,35 @@ public class GameManager : MonoBehaviour
                 else if (!_classification.Contains(kart))
                     _classification[i] = kart;
             }
-            if (i == 0)
-                _classificationPanel.GetChild(i).GetComponent<TextMeshProUGUI>().text = "1st lutin - " + _classification[i].name;
-            else if (i == 1)
-                _classificationPanel.GetChild(i).GetComponent<TextMeshProUGUI>().text = "2nd lutin - " + _classification[i].name;
-            else if (i == 2)
-                _classificationPanel.GetChild(i).GetComponent<TextMeshProUGUI>().text = "3rd lutin - " + _classification[i].name;
-            else if (i == 3)
-                _classificationPanel.GetChild(i).GetComponent<TextMeshProUGUI>().text = "4th lutin - " + _classification[i].name;
+
+            NameOfPlayer playerName = _classification[i].GetComponent<NameOfPlayer>();
+            if (playerName)
+                PrintClassification(playerName.NameSync.Value.ToString(), i);
+            else
+                PrintClassification(_classification[i].name, i);
         }
 
-        for (int i = 0; i < _classification.Length; i++)
+        for (int i = 0; i < _karts.Count; i++)
         {
             _classification[i] = null;
         }
+    }
+
+    public void AddKart(KartController kart)
+    {
+        _karts.Add(kart);
+    }
+
+    private void PrintClassification(string name, int place)
+    {
+        if (place == 0)
+            _classificationPanel.GetChild(place).GetComponent<TextMeshProUGUI>().text = "1st lutin - " + name;
+        else if (place == 1)
+            _classificationPanel.GetChild(place).GetComponent<TextMeshProUGUI>().text = "2nd lutin - " + name;
+        else if (place == 2)
+            _classificationPanel.GetChild(place).GetComponent<TextMeshProUGUI>().text = "3rd lutin - " + name;
+        else if (place == 3)
+            _classificationPanel.GetChild(place).GetComponent<TextMeshProUGUI>().text = "4th lutin - " + name;
     }
 
     void OnDrawGizmos()
