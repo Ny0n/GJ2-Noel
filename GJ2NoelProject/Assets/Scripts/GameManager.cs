@@ -6,6 +6,7 @@ using Unity.Collections;
 using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour
 {
@@ -84,5 +85,12 @@ public class GameManager : NetworkBehaviour
     public void NewLap(KartController kart)
     {
         kart.CurrentLap++;
+        if (kart.CurrentLap >= 3)
+        {
+            if (kart.GetComponent<ArcadeKart>())
+            {
+                SceneManager.LoadScene("OtherSceneName", LoadSceneMode.Additive);
+            }
+        }
     }
 }
