@@ -54,7 +54,7 @@ public class AIMovement : KartController
     // Update is called once per frame
     void Update()
     {
-        Vector3 targetPosition = _waypoints[_currentTarget].transform.position + new Vector3(Random.Range(-15, 15), 0, Random.Range(-15, 15));
+        Vector3 targetPosition = _waypoints[_currentTarget].transform.position + new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
         Vector3 heading = targetPosition - transform.position;
 
         Vector3 perp = Vector3.Cross(transform.forward, heading);

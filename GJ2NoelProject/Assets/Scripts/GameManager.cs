@@ -31,8 +31,9 @@ public class GameManager : MonoBehaviour
                 {
                     float posKartDistanceToTarget = Vector3.Distance(_classification[i].transform.position, Waypoints[_classification[i].CurrentWaypointTargetting].transform.position);
                     float kartDistanceToTarget = Vector3.Distance(kart.transform.position, Waypoints[kart.CurrentWaypointTargetting].transform.position);
-                    if (_classification[i].CurrentWaypointTargetting < kart.CurrentWaypointTargetting
-                        || (_classification[i].CurrentWaypointTargetting == kart.CurrentWaypointTargetting && posKartDistanceToTarget > kartDistanceToTarget))
+                    if (_classification[i].CurrentLap < kart.CurrentLap
+                        || (_classification[i].CurrentLap == kart.CurrentLap && _classification[i].CurrentWaypointTargetting < kart.CurrentWaypointTargetting)
+                        || (_classification[i].CurrentLap == kart.CurrentLap && _classification[i].CurrentWaypointTargetting == kart.CurrentWaypointTargetting && posKartDistanceToTarget > kartDistanceToTarget))
                         _classification[i] = kart;
                 }
                 else if (!_classification.Contains(kart))
@@ -61,5 +62,10 @@ public class GameManager : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawLine(Waypoints[i].transform.position, Waypoints[(int)Mathf.Repeat(i + 1, Waypoints.Length)].transform.position);
         }
+    }
+
+    public void NewLap(KartController kart)
+    {
+        kart.CurrentLap++;
     }
 }

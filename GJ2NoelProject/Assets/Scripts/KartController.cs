@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class KartController : NetworkBehaviour
 {
+    public int CurrentLap;
     public int CurrentWaypointTargetting;
 
     // Start is called before the first frame update
     void Start()
     {
+        CurrentLap = -1;
         CurrentWaypointTargetting = 0;
     }
 
@@ -17,15 +19,5 @@ public class KartController : NetworkBehaviour
     void Update()
     {
         
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Waypoint waypoint = other.gameObject.GetComponent<Waypoint>();
-
-        if (waypoint)
-        {
-            CurrentWaypointTargetting = waypoint.NextWaypoint;
-        }
     }
 }
