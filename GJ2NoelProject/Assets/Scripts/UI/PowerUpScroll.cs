@@ -58,11 +58,11 @@ public class PowerUpScroll : GenericSingleton<PowerUpScroll>
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.I))
-        //{
-        //    DestroyCurrentItem();
-        //    StartSelectRandomItem();
-        //}
+        // if (Input.GetKeyDown(KeyCode.I))
+        // {
+        //     DestroyCurrentItem();
+        //     StartSelectRandomItem();
+        // }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -125,6 +125,8 @@ public class PowerUpScroll : GenericSingleton<PowerUpScroll>
         _sprites = _sprites.OrderBy(x => Random.value).ToList();
 
         _isSelectingItem = true;
+        
+        AudioManager.Instance.Play("box_scroll");
         
         StartCoroutine(nameof(SelectItemCoroutine));
         StartCoroutine(nameof(ScrollCoroutine));
@@ -194,6 +196,9 @@ public class PowerUpScroll : GenericSingleton<PowerUpScroll>
     {
         _startWaitingForCenterItem = false;
         StopCoroutine(nameof(ScrollCoroutine));
+        
+        AudioManager.Instance.StopPlaying("box_scroll");
+        AudioManager.Instance.Play("item_obtain");
         
         foreach (var sprite in _sprites)
         {

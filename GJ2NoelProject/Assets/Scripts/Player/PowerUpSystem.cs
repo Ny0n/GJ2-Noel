@@ -24,8 +24,9 @@ public class PowerUpSystem :NetworkBehaviour
         StartCoroutine(ReActivate(other.gameObject));
     }
 
-    public void GetPowerUp() 
+    public void GetPowerUp()
     {
+        AudioManager.Instance.Play("box_hit");
         _powerUpScroll.StartSelectRandomItem();
     }
 
