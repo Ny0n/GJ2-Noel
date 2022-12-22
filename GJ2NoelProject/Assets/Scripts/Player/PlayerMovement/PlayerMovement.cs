@@ -133,14 +133,14 @@ public class PlayerMovement : KartController
         LeftAxisServerRpc(value);
     }
 
-    [ServerRpc]
+    [ServerRpc (RequireOwnership = false)]
     private void ForwardAxisServerRPC(float value) 
     {
         if (_controlsActivated)
             _forwardAxisValue = value;
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void LeftAxisServerRpc(float value)
     {
         if (_controlsActivated)
