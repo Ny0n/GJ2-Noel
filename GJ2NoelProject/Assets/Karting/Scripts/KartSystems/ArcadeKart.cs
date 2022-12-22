@@ -192,23 +192,6 @@ public class ArcadeKart : NetworkBehaviour
 
         ActionServerRpc(context.ReadValue<Vector2>());
 
-        //Vector2 vec2 = context.ReadValue<Vector2>();
-        //turnInput = vec2.x;
-        //if (vec2.y > 0)
-        //{
-        //    wantToAccelerate = true;
-        //    wantToBrake = false;
-        //}
-        //else if (vec2.y < 0)
-        //{
-        //    wantToBrake = true;
-        //    wantToAccelerate = false;
-        //}
-        //else
-        //{
-        //    wantToAccelerate = false;
-        //    wantToBrake = false;
-        //}
     }
 
     [ServerRpc]

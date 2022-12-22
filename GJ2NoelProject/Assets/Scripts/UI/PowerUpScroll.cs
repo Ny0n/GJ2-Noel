@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class PowerUpScroll : MonoBehaviour
+public class PowerUpScroll : GenericSingleton<PowerUpScroll>
 {
     public enum PowerUpType
     {
@@ -17,7 +17,7 @@ public class PowerUpScroll : MonoBehaviour
         Snowball,
         bad_gift,
     }
-    
+
     [Serializable]
     public struct PowerUp
     {
@@ -58,12 +58,12 @@ public class PowerUpScroll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            DestroyCurrentItem();
-            StartSelectRandomItem();
-        }
-        
+        //if (Input.GetKeyDown(KeyCode.I))
+        //{
+        //    DestroyCurrentItem();
+        //    StartSelectRandomItem();
+        //}
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             SlowDownScrollSpeed();
@@ -99,7 +99,7 @@ public class PowerUpScroll : MonoBehaviour
         return false;
     }
 
-    private void StartSelectRandomItem()
+    public void StartSelectRandomItem()
     {
         if (_isSelectingItem || _hasItem)
             return;
