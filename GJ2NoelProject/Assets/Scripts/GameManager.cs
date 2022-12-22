@@ -14,6 +14,7 @@ public class GameManager : NetworkBehaviour
     private List<KartController> _karts = new List<KartController>();
 
     [SerializeField] private RectTransform _classificationPanel;
+    [SerializeField] private RectTransform _finalPanel;
 
     public Waypoint[] Waypoints;
 
@@ -43,11 +44,8 @@ public class GameManager : NetworkBehaviour
                     _classification[i] = kart;
             }
 
-            NameOfPlayer playerName = _classification[i].GetComponent<NameOfPlayer>();
-            if (playerName)
-                PrintClassification(playerName.NameSync.Value.ToString(), i);
-            else
-                PrintClassification(_classification[i].name, i);
+            PrintClassification(_classificationPanel.GetChild(i).GetComponent<TextMeshProUGUI>(), i);
+            PrintClassification(_finalPanel.GetChild(i).GetComponent<TextMeshProUGUI>(), i);
         }
 
         for (int i = 0; i < _karts.Count; i++)
@@ -61,16 +59,26 @@ public class GameManager : NetworkBehaviour
         _karts.Add(kart);
     }
 
-    private void PrintClassification(string name, int place)
+    private void PrintClassification(TextMeshProUGUI textHolder, int place)
     {
+        string name;
+
+
+        NameOfPlayer playerName = _classification[place].GetComponent<NameOfPlayer>();
+
+        if (playerName)
+            name = playerName.NameSync.Value.ToString();
+        else
+            name = _classification[place].name;
+
         if (place == 0)
-            _classificationPanel.GetChild(place).GetComponent<TextMeshProUGUI>().text = "1st lutin - " + name;
+            textHolder.text = "1st lutin - " + name;
         else if (place == 1)
-            _classificationPanel.GetChild(place).GetComponent<TextMeshProUGUI>().text = "2nd lutin - " + name;
+            textHolder.text = "2nd lutin - " + name;
         else if (place == 2)
-            _classificationPanel.GetChild(place).GetComponent<TextMeshProUGUI>().text = "3rd lutin - " + name;
+            textHolder.text = "3rd lutin - " + name;
         else if (place == 3)
-            _classificationPanel.GetChild(place).GetComponent<TextMeshProUGUI>().text = "4th lutin - " + name;
+            textHolder.text = "4th lutin - " + name;
     }
 
     void OnDrawGizmos()
@@ -85,11 +93,11 @@ public class GameManager : NetworkBehaviour
     public void NewLap(KartController kart)
     {
         kart.CurrentLap++;
-        if (kart.CurrentLap >= 3)
+        if (kart.CurrentLap >= 0)
         {
             if (kart.GetComponent<ArcadeKart>())
             {
-                SceneManager.LoadScene("OtherSceneName", LoadSceneMode.Additive);
+                _finalPanel.gameObject.SetActive(true);
             }
         }
     }

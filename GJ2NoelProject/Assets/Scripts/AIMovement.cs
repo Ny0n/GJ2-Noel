@@ -36,7 +36,7 @@ public class AIMovement : KartController
     void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
-        _currentTarget = 0;
+        _currentTarget = 11;
         _currentSpeed = 0;
         _lastHitRayCastDistance = new float[_hoverPoints.Length];
 
