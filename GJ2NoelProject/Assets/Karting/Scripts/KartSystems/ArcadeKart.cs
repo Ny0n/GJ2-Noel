@@ -192,6 +192,7 @@ public class ArcadeKart : NetworkBehaviour
 
         Debug.Log(context.ReadValue<Vector2>());
         ActionServerRpc(context.ReadValue<Vector2>());
+
         //Vector2 vec2 = context.ReadValue<Vector2>();
         //turnInput = vec2.x;
         //if (vec2.y > 0)
