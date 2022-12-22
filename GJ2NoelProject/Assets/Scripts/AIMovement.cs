@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 
-public class AIMovement : MonoBehaviour
+public class AIMovement : KartController
 {
     private bool _colliding;
     private bool _grounded;
@@ -14,7 +14,9 @@ public class AIMovement : MonoBehaviour
     private float _forwardAxisValue;
     private float _leftAxisValue;
     private float[] _lastHitRayCastDistance;
+    private GameManager _gameManager;
     private Rigidbody _rigidbody;
+    private Waypoint[] _waypoints;
 
     [SerializeField] private float _accelerationPerFrame;
     [SerializeField] private float _angleSpeed;
@@ -22,17 +24,18 @@ public class AIMovement : MonoBehaviour
     [SerializeField] private float _deccelerationPerFrame;
     [SerializeField] private float _length;
     [SerializeField] private float _speed;
-    [SerializeField] private int _currentTarget;
     [SerializeField] private int _strength;
     [SerializeField] private LayerMask _raycastIgnore;
-    [SerializeField] private Transform[] _waypoints;
 
     [SerializeField] protected Transform _centerOfMass;
     [SerializeField] protected Transform[] _hoverPoints;
 
+    public int _currentTarget;
+
     // Start is called before the first frame update
     void Start()
     {
+        _gameManager = FindObjectOfType<GameManager>();
         _currentTarget = 0;
         _currentSpeed = 0;
         _lastHitRayCastDistance = new float[_hoverPoints.Length];
@@ -44,31 +47,20 @@ public class AIMovement : MonoBehaviour
 
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.centerOfMass = _centerOfMass.localPosition;
+
+        _waypoints = _gameManager.Waypoints;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("_currentSpeed : " + _currentSpeed);
-
-        Vector3 targetPosition = _waypoints[_currentTarget].position + new Vector3(Random.Range(-15, 15), 0, Random.Range(-15, 15));
+        Vector3 targetPosition = _waypoints[_currentTarget].transform.position + new Vector3(Random.Range(-15, 15), 0, Random.Range(-15, 15));
         Vector3 heading = targetPosition - transform.position;
-        Vector3 headingNext;
-        if (_waypoints.Length == _currentTarget + 1)
-            headingNext = _waypoints[0].position - transform.position;
-        else
-            headingNext = _waypoints[_currentTarget + 1].position - transform.position;
 
         Vector3 perp = Vector3.Cross(transform.forward, heading);
         float dir = Vector3.Dot(perp, transform.up);
 
         float angleDiff = Mathf.Abs(Vector3.SignedAngle(transform.forward, heading, transform.forward));
-        float secondAngleDiff = Mathf.Abs(Vector3.SignedAngle(transform.forward, headingNext, transform.forward));
-
-        if (_currentSpeed < 0.25)
-        {
-            Debug.Log("Pas assez vite !");
-        }
 
         Debug.DrawRay(transform.position, transform.forward);
 
@@ -91,23 +83,12 @@ public class AIMovement : MonoBehaviour
 
         if (Vector3.Distance(transform.position, targetPosition) < 5)
         {
-            Debug.Log("Changement de waypoint");
             if (_waypoints.Length == _currentTarget + 1)
             {
-                Debug.Log("Tour terminé");
                 _currentTarget = 0;
             }
             else
                 _currentTarget++;
-        }
-    }
-
-    void OnDrawGizmos()
-    {
-        for (int i = 0; i < _waypoints.Length; i++)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(_waypoints[i].position, _waypoints[(int)Mathf.Repeat(i + 1, _waypoints.Length)].position);
         }
     }
 
@@ -160,7 +141,6 @@ public class AIMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("collide !");
         if (collision.gameObject.tag == "ground")
             return;
 

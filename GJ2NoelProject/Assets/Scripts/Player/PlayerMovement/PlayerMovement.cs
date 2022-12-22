@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerMovement : NetworkBehaviour
+public class PlayerMovement : KartController
 {
     [SerializeField] private Transform _center;
     [SerializeField] private LayerMask _raycastIgnore;
