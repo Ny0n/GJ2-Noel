@@ -29,23 +29,24 @@ public class GameManager : NetworkBehaviour
     {
         for (int i = 0; i < _karts.Count; i++)
         {
-            foreach (KartController kart in _karts)
+            for (int j = 0; j < _karts.Count; j++)
             {
-                if (_classification[i] && !_classification.Contains(kart))
+                if (_classification[i] && !_classification.Contains(_karts[j]))
                 {
                     float posKartDistanceToTarget = Vector3.Distance(_classification[i].transform.position, Waypoints[_classification[i].CurrentWaypointTargetting].transform.position);
-                    float kartDistanceToTarget = Vector3.Distance(kart.transform.position, Waypoints[kart.CurrentWaypointTargetting].transform.position);
-                    if (_classification[i].CurrentLap < kart.CurrentLap
-                        || (_classification[i].CurrentLap == kart.CurrentLap && _classification[i].CurrentWaypointTargetting < kart.CurrentWaypointTargetting)
-                        || (_classification[i].CurrentLap == kart.CurrentLap && _classification[i].CurrentWaypointTargetting == kart.CurrentWaypointTargetting && posKartDistanceToTarget > kartDistanceToTarget))
-                        _classification[i] = kart;
+                    float kartDistanceToTarget = Vector3.Distance(_karts[j].transform.position, Waypoints[_karts[j].CurrentWaypointTargetting].transform.position);
+                    if (_classification[i].CurrentLap < _karts[j].CurrentLap
+                        || (_classification[i].CurrentLap == _karts[j].CurrentLap && _classification[i].CurrentWaypointTargetting < _karts[j].CurrentWaypointTargetting)
+                        || (_classification[i].CurrentLap == _karts[j].CurrentLap && _classification[i].CurrentWaypointTargetting == _karts[j].CurrentWaypointTargetting && posKartDistanceToTarget > kartDistanceToTarget))
+                        _classification[i] = _karts[j];
                 }
-                else if (!_classification.Contains(kart))
-                    _classification[i] = kart;
+                else if (!_classification.Contains(_karts[j]))
+                    _classification[i] = _karts[j];
             }
 
             PrintClassification(_classificationPanel.GetChild(i).GetComponent<TextMeshProUGUI>(), i);
-            PrintClassification(_finalPanel.GetChild(i).GetComponent<TextMeshProUGUI>(), i);
+            if (!_classification[i].Finished)
+                PrintClassification(_finalPanel.GetChild(i).GetComponent<TextMeshProUGUI>(), i);
         }
 
         for (int i = 0; i < _karts.Count; i++)
@@ -62,7 +63,6 @@ public class GameManager : NetworkBehaviour
     private void PrintClassification(TextMeshProUGUI textHolder, int place)
     {
         string name;
-
 
         NameOfPlayer playerName = _classification[place].GetComponent<NameOfPlayer>();
 
@@ -93,7 +93,7 @@ public class GameManager : NetworkBehaviour
     public void NewLap(KartController kart)
     {
         kart.CurrentLap++;
-        if (kart.CurrentLap >= 0)
+        if (kart.CurrentLap >= 2)
         {
             ArcadeKart playerKart = kart.GetComponent<ArcadeKart>();
             if (playerKart)
@@ -101,6 +101,8 @@ public class GameManager : NetworkBehaviour
                 _finalPanel.gameObject.SetActive(true);
                 playerKart.SetCanMove(false);
             }
+            kart.Finished = true;
+            _classificationPanel.gameObject.SetActive(false);
         }
     }
 }
