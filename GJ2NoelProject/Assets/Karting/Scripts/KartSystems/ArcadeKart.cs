@@ -5,7 +5,7 @@ using UnityEngine.VFX;
 using UnityEngine.InputSystem;
 using Unity.Netcode;
 
-public class ArcadeKart : NetworkBehaviour
+public class ArcadeKart : KartController
 {
     [System.Serializable]
     public class StatPowerup
@@ -613,5 +613,12 @@ public class ArcadeKart : NetworkBehaviour
         }
 
         ActivateDriftVFX(IsDrifting && GroundPercent > 0.0f);
+    }
+
+    private GameManager _gameManager;
+    private void Start()
+    {
+        _gameManager = FindObjectOfType<GameManager>();
+        _gameManager.AddKart(this);
     }
 }

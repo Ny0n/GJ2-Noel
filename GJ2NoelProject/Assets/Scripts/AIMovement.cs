@@ -15,8 +15,8 @@ public class AIMovement : KartController
     private float _leftAxisValue;
     private float[] _lastHitRayCastDistance;
     private GameManager _gameManager;
-    private Rigidbody _rigidbody;
     private Waypoint[] _waypoints;
+    private Rigidbody _rigidbody;
 
     [SerializeField] private float _accelerationPerFrame;
     [SerializeField] private float _angleSpeed;
@@ -36,7 +36,7 @@ public class AIMovement : KartController
     void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
-        _currentTarget = 0;
+        _currentTarget = 11;
         _currentSpeed = 0;
         _lastHitRayCastDistance = new float[_hoverPoints.Length];
 
@@ -48,13 +48,14 @@ public class AIMovement : KartController
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.centerOfMass = _centerOfMass.localPosition;
 
+        _gameManager.AddKart(this);
         _waypoints = _gameManager.Waypoints;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 targetPosition = _waypoints[_currentTarget].transform.position + new Vector3(Random.Range(-15, 15), 0, Random.Range(-15, 15));
+        Vector3 targetPosition = _waypoints[_currentTarget].transform.position + new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
         Vector3 heading = targetPosition - transform.position;
 
         Vector3 perp = Vector3.Cross(transform.forward, heading);
