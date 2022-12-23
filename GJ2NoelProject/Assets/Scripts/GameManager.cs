@@ -95,9 +95,11 @@ public class GameManager : NetworkBehaviour
         kart.CurrentLap++;
         if (kart.CurrentLap >= 0)
         {
-            if (kart.GetComponent<ArcadeKart>())
+            ArcadeKart playerKart = kart.GetComponent<ArcadeKart>();
+            if (playerKart)
             {
                 _finalPanel.gameObject.SetActive(true);
+                playerKart.SetCanMove(false);
             }
         }
     }
