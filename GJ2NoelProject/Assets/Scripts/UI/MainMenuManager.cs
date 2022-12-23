@@ -26,6 +26,7 @@ namespace UI
         [Header("Name Panel")] 
         [SerializeField] private GameObject _namePanel;
         [SerializeField] private Button _nameSubmit;
+        [SerializeField] private Button _back;
         [SerializeField] private TextMeshProUGUI _nameText;
         
         [Header("Other")] 
@@ -61,7 +62,6 @@ namespace UI
             {
                 SceneManager.LoadSceneAsync(LOBBY_SCENE);
             }
-
         }
 
         private void OnDisable()
@@ -95,6 +95,12 @@ namespace UI
             playMenu.SetActive(true);
             joinMenu.SetActive(false);
         }
+
+        public void JoinPseudoRemoveListener()
+        {
+            _nameSubmit.onClick.RemoveAllListeners();
+        }
+
         private void RemoveNameSubmitListener()
         {
             _nameSubmit.onClick.RemoveListener(OnJoinClicked);
