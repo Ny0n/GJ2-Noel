@@ -43,25 +43,34 @@ public class AudioManager : MonoBehaviour
             s.Source.spatialBlend = (s.Blend == Sound.TypeBlend.None_2D) ? 0.0f : 1.0f;
             s.Source.maxDistance = 10.0f;
         }
+        
+        Play("theme"); // we play the theme song
+        
+        KonamiCodes.OnCodeCompleted += delegate(string codeName)
+        {
+            if (codeName == "CheatCode1")
+            {
+                SwitchThemeSong();
+            }
+        };
     }
 
-    private void Update()
-    {
-        if (!IsPlaying("theme"))
-            Play("theme"); // we play the theme song
-    }
-
-    [ClientRpc]
-    private void LaunchTauntSoundClientRpc()
-    {
-        // Play sound
-        Play("taunt");
-    }
+    private bool theme = true;
     
-    [ServerRpc]
-    private void LaunchTauntSoundServerRpc()
+    private void SwitchThemeSong()
     {
-        LaunchTauntSoundClientRpc();
+        if (theme)
+        {
+            StopPlaying("theme");
+            Play("themeSecret");
+        }
+        else
+        {
+            StopPlaying("themeSecret");
+            Play("theme");
+        }
+
+        theme = !theme;
     }
 
     // Class functions ///////////////////////////////////////////////////

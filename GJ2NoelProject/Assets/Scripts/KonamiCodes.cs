@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DelegateToolBox;
 using UnityEngine;
 
-public class KonamiCodes : MonoBehaviour
+public class KonamiCodes : GenericSingleton<KonamiCodes>
 {
     [Serializable]
     private struct CodeData // Create codes in the unity editor
@@ -52,8 +52,6 @@ public class KonamiCodes : MonoBehaviour
         private void OnGoodInput()
         {
             _progress++;
-            
-            print("Progress KonamiCode: \"" + _codeData.Name + "\", " + _progress + "/" + _codeData.Inputs.Count);
         }
         
         private void OnFinished()
@@ -83,7 +81,7 @@ public class KonamiCodes : MonoBehaviour
      
         -- Example: --
         
-        OnCodeCompleted += delegate(string codeName)
+        KonamiCodes.OnCodeCompleted += delegate(string codeName)
         {
             if (codeName == "...")
             {
