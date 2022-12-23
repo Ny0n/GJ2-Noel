@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using DelegateToolBox;
 using UnityEngine;
 
-public class KonamiCodes : GenericSingleton<KonamiCodes>
+public class KonamiCodes : MonoBehaviour
 {
+    public static KonamiCodes Instance { get; private set; }
+    
     [Serializable]
     private struct CodeData // Create codes in the unity editor
     {
@@ -70,7 +72,6 @@ public class KonamiCodes : GenericSingleton<KonamiCodes>
         
         private void OnBreak()
         {
-            print("Broke KonamiCode: \"" + _codeData.Name + "\"");
         }
     }
     
@@ -93,6 +94,20 @@ public class KonamiCodes : GenericSingleton<KonamiCodes>
 
     [SerializeField] private List<CodeData> Codes;
     private List<Code> _codes = new();
+    
+    void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
     
     private void Start()
     {
