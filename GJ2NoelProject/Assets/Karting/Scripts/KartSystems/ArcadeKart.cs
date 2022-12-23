@@ -181,6 +181,8 @@ public class ArcadeKart : KartController
     bool m_HasCollision;
     bool m_InAir = false;
 
+    bool m_StatingBlock;
+
     public void AddPowerup(StatPowerup statPowerup) => m_ActivePowerupList.Add(statPowerup);
     public void SetCanMove(bool move) => m_CanMove = move;
     public float GetMaxSpeed() => Mathf.Max(m_FinalStats.TopSpeed, m_FinalStats.ReverseSpeed);
@@ -194,9 +196,30 @@ public class ArcadeKart : KartController
 
     }
 
+    public void StartingBlock() 
+    {
+        m_StatingBlock = true;
+    }
+
+    public void StopStartingBlock() 
+    {
+        StopStartingBlockClientRpc();
+        m_StatingBlock = false;
+    }
+
+    [ClientRpc]
+    public void StopStartingBlockClientRpc()
+    {
+        m_StatingBlock = false;
+        Debug.Log(m_StatingBlock);
+    }
+
     [ServerRpc]
     public void ActionServerRpc(Vector2 vec2)
     {
+        if (m_StatingBlock)
+            return;
+
         turnInput = vec2.x;
         if (vec2.y > 0)
         {
@@ -263,6 +286,7 @@ public class ArcadeKart : KartController
 
     void Awake()
     {
+        m_StatingBlock = true;
         Rigidbody = GetComponent<Rigidbody>();
 
         UpdateSuspensionParams(FrontLeftWheel);
@@ -291,8 +315,16 @@ public class ArcadeKart : KartController
                 Instantiate(NozzleVFX, nozzle, false);
             }
         }
+
+        GameEvents.OnWaitForPlayers += StartingBlock;
+        GameEvents.OnStartRace += StopStartingBlock;
     }
 
+    private void OnDisable()
+    {
+        GameEvents.OnWaitForPlayers -= StartingBlock;
+        GameEvents.OnStartRace -= StopStartingBlock;
+    }
     void AddTrailToWheel(WheelCollider wheel)
     {
         GameObject trailRoot = Instantiate(DriftTrailPrefab, gameObject.transform, false);
